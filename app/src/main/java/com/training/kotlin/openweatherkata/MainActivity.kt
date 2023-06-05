@@ -28,8 +28,11 @@ import com.google.android.gms.tasks.Task
 import com.training.kotlin.openweatherkata.commons.Constant
 import com.training.kotlin.openweatherkata.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.util.*
 
 @AndroidEntryPoint
@@ -242,7 +245,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                dismissProgressLoad()
+                withContext(Dispatchers.Main) {
+                    dismissProgressLoad()
+                }
                 stopLocationUpdates()
                 city = " "
                 country = " "
@@ -253,7 +258,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun dismissProgressLoad() {
-        binding.progress.visibility = View.GONE
+
+            binding.progress.visibility = View.GONE
+
+
     }
 
     private fun showProgressLoad() {
